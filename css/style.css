@@ -1700,38 +1700,47 @@ nav.navbar ul.navbar-nav li a:focus,nav.navbar ul.navbar-nav li a:hover{
 	background: #3b5999;
 	border: 1px solid #3b5999;  
 }
-.social-icon2 li .dribble i{
+.social-icon2 li .instagram i{
     padding: 8px; 
 }
-.social-icon2 li .dribble i:hover{
+.social-icon2 li .instagram i:hover{
     padding: 8px;
-	background: #ea4c89;
-	border: 1px solid #ea4c89;  
+	background: #d93175;
+	border: 1px solid #d93175;  
 }
-.social-icon2 li .behance i{
+.social-icon2 li .twitter i{
 	padding: 8px 7px 8px 8px;
 }
-.social-icon2 li .behance i:hover{
+.social-icon2 li .twitter i:hover{
     padding: 8px 7px 8px 8px;
 	background: #1769ff;
 	border: 1px solid #1769ff;  
 }
-.social-icon2 li .linkedin i{
+.social-icon2 li .itunes i{
     padding: 8px 9px;  
 }
-.social-icon2 li .linkedin i:hover{
+.social-icon2 li .itunes i:hover{
     padding: 8px 9px;
-    background: #0077b5;
-	border: 1px solid #0077b5; 	
+    background: #6b96a7;
+	border: 1px solid #6b96a7; 	
 }
-.social-icon2 li .google i{
+.social-icon2 li .youtube i{
     padding: 8px 6px;  
 }
-.social-icon2 li .google i:hover{
+.social-icon2 li .youtube i:hover{
     padding: 8px 6px;  
 	background: #dd4b39;
 	border: 1px solid #dd4b39; 	
 }
+.social-icon2 li .spotify i{
+    padding: 8px 9px;
+}
+.social-icon2 li .spotify i:hover{
+    padding: 8px 9px;
+	background: #84bd00;
+	border: 1px solid #84bd00; 	
+}
+
 /*====================================
 		===[about2 Style ]===
 ======================================*/
