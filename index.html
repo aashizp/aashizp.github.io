@@ -262,7 +262,7 @@ You can find him at different social networks.</p>
     				 });
     				 db.ref('videos').on('child_removed',function(snap){
   						app.videos = app.videos.filter(function(e){
-  							e.key != snap.key ;
+  							return e.key != snap.key ;
   						});
   					});
    					 this.loading = false;
