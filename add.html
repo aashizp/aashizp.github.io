@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="description" content="Ashim KC | Official Site">
+	<meta name="keywords" content="Nepali Singer, Ashim KC, Official site of Ashim Kc, KC Ashim ">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Aashiz Poudel">
+	<!-- SITE TITLE -->
+	<title>Ashim KC - Nepali Singer : Official Site</title>
+	<!-- Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="images/thumbnail.jpg">
+	<!-- STYLESHEETS -->
+	<link href="https://fonts.googleapis.com/css?family=Dosis:500,600,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/component.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/slick.css"/>
+    <link rel="stylesheet" href="css/slick-theme.css"/>	
+	<link rel="stylesheet" href="css/animate.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/responsive.css">
+
+			<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+<body>
+	<section>
+	<div class='container' >
+	<div class='col-md-6' id='root'>
+        		<div class='form-group'>
+        			<div class='d-flex justify-content-between'>
+        		<form class='form-inline' v-on:submit.prevent='onSubmit'>
+        			<input type="text" name="title" required v-model='title' placeholder="title" class='form-control'>
+        			<input type="text" name="id" required placeholder="id" v-model='id' class='form-control'>
+        			<input type='submit' name='action' class='btn btn-primary' value='Add'/>
+        		</form>
+
+        		</div>
+        		</div>
+        		<div class='list-group'>
+        			<div class='list-group-item' v-for='item in items' :key='item.key'>
+        				<div class='d-flex justify-content-between'>
+        					<span><strong>{{item.title}}</strong> - {{item.id}}</span> <span><button @click.submit="onDelete(item.key)" class='btn btn-primary'>delete</button></span>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        	<script src="js/jquery.min.js"></script>
+        	  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD-Hdib7m1PjihntLLvixyMVBus5nxnD6U",
+    authDomain: "tung-4b952.firebaseapp.com",
+    databaseURL: "https://tung-4b952.firebaseio.com",
+    projectId: "tung-4b952",
+    storageBucket: "tung-4b952.appspot.com",
+    messagingSenderId: "1008568347863"
+  };
+  firebase.initializeApp(config);
+  var db = firebase.database();
+       
+</script>
+        		<script>
+        			
+        		
+
+        			var vm = new Vue({
+        				el: '#root',
+        				data:{
+        					items:[],
+        					title:'',
+        					id:'',
+        				},
+        				methods:{onDelete:function(key){
+        									
+        				        			db.ref('videos/'+key).set(null);
+        				       				 },
+        				       	onSubmit:function(){
+        				       		console.log('submit');
+        				       		if(this.title === '' && this.id ==='')
+        				       			return;
+        				       		db.ref('videos').push({title:this.title,id:this.id});
+        				       		this.title='';
+        				       		this.id='';
+        				       		alert('added');
+        				       	}
+        				    }
+        			});
+
+        			db.ref('videos').on('child_added',function(snap){
+        				var $va = snap.val();
+        				$va['key'] = snap.key;
+        				console.log($va);
+        				vm.items.push($va);
+        			}) ;
+
+        			db.ref('videos').on('child_removed',function(snap){
+        				vm.items = vm.items.filter(function(e){
+        					return e.key != snap.key; 
+        				});
+        				
+        			});
+        	
+        		</script>
+        </div>
+</section>
+    <script src="js/bootstrap.min.js"></script> 
+
+</body>
+</html>

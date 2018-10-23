@@ -26,6 +26,9 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/responsive.css">
+
+			<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="0">
 <div id="loader-wrapper">
@@ -192,97 +195,85 @@ You can find him at different social networks.</p>
 		<div class="row">
 			<div class="videos-wrapper col-md-12">
 			    <div class="filter-buttons">
-					<div class="button-group filters-button-group">
-						<button class="button is-checked" data-filter="*">All</button>
-						<button class="button" data-filter=".ct1">Web Design</button>
-						<button class="button" data-filter=".ct2">Motion Graphic</button>
-						<button class="button" data-filter=".ct3">llustration</button>
-						<button class="button" data-filter=".ct4">Photography</button>
-					</div>
+					
 				</div>
 			</div>
 		</div>
-		<div class="grid">
-			<div class="row">
-				<div class="col-md-4 grid-item ct3 ct4">
-				    <div class="single-videos-item">
-					    <a href=""><img src="images/p1.png" alt=""></a>
-					</div>
-					<div class="search">
-					    <a href="images/p1.png" class="port-view"><i class="fas fa-play"></i></a>
-					</div>
-					<div class="description d-flex">
-					    <p>Rappox Template<br><span>Html template design.</span></p>
-						 
-					</div>
-				</div>
-				<div class="col-md-4 grid-item ct1">
-					<div class="single-videos-item ">
-					    <a href=""><img src="images/p2.png" alt=""></a>
-					</div>
-					<div class="search">
-					    <a href="images/p2.png" class="port-view"><i class="fas fa-play"></i></a>
-					</div>
-					<div class="description d-flex">
-					    <p>Rappox Template<br><span>Html template design.</span></p>
-						 
-					</div>
-				</div>
-				<div class="col-md-4 grid-item ct3">
+
+		<div class="gri" id='myapp'>
+				<p v-if='videos.length===0' class='alert-warning text-center'>No videos right now</p>
+			<div class="row mt-3 pt-2">
+
+		
+				<custom v-for="(video,index) in videos" :video="video" :key="video.key"/>
+
+				
+        </div>
+        	
+    </div>
+     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD-Hdib7m1PjihntLLvixyMVBus5nxnD6U",
+    authDomain: "tung-4b952.firebaseapp.com",
+    databaseURL: "https://tung-4b952.firebaseio.com",
+    projectId: "tung-4b952",
+    storageBucket: "tung-4b952.appspot.com",
+    messagingSenderId: "1008568347863"
+  };
+  firebase.initializeApp(config);
+  var db = firebase.database();
+       
+
+ 			Vue.component("custom",{
+ 				props:['video'],
+ 				template:function(){/*
+					<div class="col-md-4 grid-item">
+  					<div>
 					<div class="single-videos-item">
-					    <a href=""><img src="images/p3.png" alt=""></a>
+					    <a href=""><img class='responsive img-fluid img-responsive' :src="'https://img.youtube.com/vi/'+video.id+'/hqdefault.jpg'"
+               			alt=""></a>
 					</div>
-					<div class="search">
-					    <a href="images/p3.png" class="port-view"><i class="fas fa-play"></i></a>
-					</div>
-					<div class="description d-flex">
-					   <p>Rappox Template<br><span>Html template design.</span></p>
-						 
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 grid-item ct2 ct3 ct4">
-					<div class="single-videos-item">
-					    <a href=""><img src="images/p4.png" alt=""></a>
-					</div>
-					<div class="search">
-					    <a href="images/p4.png" class="port-view"><i class="fas fa-play"></i></a>
-					</div>
-					<div class="description d-flex">
-					    <p>Rappox Template<br><span>Html template design.</span></p>
-						 
-					</div>
-				</div>
-				<div class="col-md-4 grid-item ct1">
-					<div class="single-videos-item ">
-					    <a href=""><img src="images/p5.png" alt=""></a>
-					</div>	
-					<div class="search">
-					    <a href="images/p5.png" class="port-view"><i class="fas fa-play"></i></a>
-					</div>
-					<div class="description d-flex">
-					   <p>Rappox Template<br><span>Html template design.</span></p>
-						 
-					</div>
-				</div>
-				<div class="col-md-4 grid-item ct2 ct3 ct4">
-					<div class="single-videos-item">
-					    <a href=""><img src="images/p6.png" alt=""></a>
-					</div>
-                    <div class="search">
-					    <a href="https://blah" target="_blank" class=""><i class="fas fa-play"></i></a>
+          			<div class="search">
+					    <a :href="'https://youtube.com/watch/?v='+video.id" target="_blank" class=""><i class="fas fa-play"></i></a>
 					</div>					
 					<div class="description d-flex">
-					    <p>Rappox Template<br><span>Html template design.</span></p>
-						 
+					    <p>{{video.title}}<br></p>
 					</div>
 				</div>
-               
-			</div>	
-        </div>
-    </div>
+  				</div>
+ 				*/}.toString(),
+ 			});
+
+			var app = new Vue({
+  			el: '#myapp', /* NOT e1 */
+  			data: {
+  				loading:true,
+    			message: 'Hello Vue!',
+    			videos:[],
+  			},
+  			mounted: function () {
+  				
+    				 db.ref('videos').on('child_added',function(snap){
+    				 	var val = snap.val();
+    				 	val['key']=snap.key ;
+    				 	app.videos.push(val);
+    				 });
+    				 db.ref('videos').on('child_removed',function(snap){
+  						app.videos = app.videos.filter(function(e){
+  							e.key != snap.key ;
+  						});
+  					});
+   					 this.loading = false;
+  		
+  					
+				},
+
+			});
+        </script>
 </section>
+
 
 
 <div id="footer"  class='bg-dark'>
