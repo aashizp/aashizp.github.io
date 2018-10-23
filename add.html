@@ -84,7 +84,7 @@
         				        			db.ref('videos/'+key).set(null);
         				       				 },
         				       	onSubmit:function(){
-        				       		console.log('submit');
+        				       		//('submit');
         				       		if(this.title === '' && this.id ==='')
         				       			return;
         				       		db.ref('videos').push({title:this.title,id:this.id});
@@ -98,7 +98,7 @@
         			db.ref('videos').on('child_added',function(snap){
         				var $va = snap.val();
         				$va['key'] = snap.key;
-        				console.log($va);
+        				//($va);
         				vm.items.push($va);
         			}) ;
 
