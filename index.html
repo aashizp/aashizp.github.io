@@ -159,8 +159,8 @@ You can find him at different social networks.</p>
 				<h2>What i do!</h2>
             </div>
         </div>
-		<div class="row serve" id='albums'>
-<!--            				<album v-for="(album,index) in albums" :album="album" :key="album.key"/>-->
+		<div class="row serve justify-content-center" id='albums'>
+            				<album v-for="(album,index) in albums" :album="album" :key="album.key"/>
 
 			<div class="col-md-3 musics">
 				<a href=""><img src="images/SAKDINA.JPG" alt=""/></a>
@@ -254,7 +254,7 @@ You can find him at different social networks.</p>
 					<div class="col-md-3 musics">
 				<a href=""><img src="images/SAKDINA.JPG" alt=""/></a>
 				<h6>{{album.title}}</h6>
-                <p><a href='{{album.link}}'><img src='/images/apple.PNG' class='img-responsive' style='width:120px'/></a></p>
+                <p><a :href="album.albumLink"><img src='/images/apple.PNG' class='img-responsive' style='width:120px'/></a></p>
 			</div>
  				*/}.toString(),
  			});
@@ -297,10 +297,10 @@ You can find him at different social networks.</p>
     				 db.ref('albums').on('child_added',function(snap){
     				 	var val = snap.val();
     				 	val['key']=snap.key ;
-    				 	app.albums.push(val);
+    				 	albums.albums.push(val);
     				 });
     				 db.ref('albums').on('child_removed',function(snap){
-  						app.albums = app.albums.filter(function(e){
+  						albums.albums = albums.albums.filter(function(e){
   							return e.key != snap.key ;
   						});
   					});

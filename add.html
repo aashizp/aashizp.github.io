@@ -33,6 +33,14 @@
 <body>
 	<section>
 	<div class='container' >
+        <div class='jumbotron'>
+        <form class='form-inline' id='login'>
+          <input type='email' name='email' placeholder="email" class='form-control'>
+          <input type='password' name='password' placeholder="password" class='form-control'>
+          <input type='submit' class='form-control'/>  
+        </form>
+        <button class='btn btn-warning' id='logout'>Logout</button>
+    </div>
         <div class='row' id='root'>
 	<div class='col-md-6' >
         <div class='card shadow'>
@@ -107,6 +115,41 @@
   var db = firebase.database();
        
 </script>
+
+<script type="text/javascript">
+    firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    $('#login').hide();
+    $('#logout').show();
+    alert('signed in');
+
+    // ...
+  } else {
+    // User is signed out.
+    // ...
+    $('#logout').hide();
+    $('#login').show();
+    alert('signed out');
+  }
+});
+    $('#logout').on('click',function(e){
+        firebase.auth().signOut().then(function(){alert('signed out')});
+    });
+            $('#login').on('submit',function(event){
+                var email=$('input[name="email"]').val();
+                var pass=$('input[name="password"]').val();
+
+                firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+  alert('error with ',email,pass);
+});                event.preventDefault();
+
+            });
+        </script>
         		<script>
         			
         		
