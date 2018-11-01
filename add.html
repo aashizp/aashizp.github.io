@@ -33,44 +33,64 @@
 <body>
 	<section>
 	<div class='container' >
-	<div class='col-md-6' id='root'>
-        		<div class='form-group'>
-        			<div class='d-flex justify-content-between'>
-        		<form class='form-inline' v-on:submit.prevent='onSubmit'>
-        			<input type="text" name="title" required v-model='title' placeholder="title" class='form-control'>
-        			<input type="text" name="id" required placeholder="id" v-model='id' class='form-control'>
-        			<input type='submit' name='action' class='btn btn-primary' value='Add'/>
-        		</form>
+        <div class='row' id='root'>
+	<div class='col-md-6' >
+        <div class='card shadow'>
+                <div class='card-header'>Videos</div>
+                <div class='card-body'>
+                    <div class='form-group'>
+                    <div class='d-flex justify-content-between'>
+                <form class='' v-on:submit.prevent='onSubmit'>
+                    <div class='row justify-content-center'>
+                    <input type="text" name="title" required v-model='title' placeholder="title" class='form-control col-md-4 mr-3'>
+                    <input type="text" name="id" required placeholder="id" v-model='id' class='form-control col-md-4 mr-3'>
+                    <input type='submit' name='action' class='btn btn-primary' value='Add'/>
+                </div>
+                </form>
 
-        		</div>
-        		</div>
-        		<div class='list-group'>
-        			<div class='list-group-item' v-for='item in items' :key='item.key'>
-        				<div class='d-flex justify-content-between'>
-        					<span><strong>{{item.title}}</strong> - {{item.id}}</span> <span><button @click.submit="onDelete(item.key)" class='btn btn-primary'>delete</button></span>
-        				</div>
-        			</div>
-        		</div>
-        	</div>
-        <div class='col-md-6' id='root2'>
-        		<div class='form-group'>
-        			<div class='d-flex justify-content-between'>
-        		<form class='form-inline' v-on:submit.prevent='onSubmit'>
-        			<input type="text" name="title" required v-model='title' placeholder="title" class='form-control'>
-        			<input type="text" name="link" required placeholder="link" v-model='link' class='form-control'>
-        			<input type='submit' name='action' class='btn btn-primary' value='Add'/>
-        		</form>
+                </div>
+                </div>
+                <div class='list-group'>
+                    <div class='list-group-item' v-for='item in items' :key='item.key'>
+                        <div class='d-flex justify-content-between'>
+                            <span><strong>{{item.title}}</strong> - {{item.id}}</span> <span><button @click.submit="onDelete(item.key)" class='btn btn-primary'>delete</button></span>
+                        </div>
+                    </div>
+                </div>
+                </div>
 
-        		</div>
-        		</div>
-        		<div class='list-group'>
-        			<div class='list-group-item' v-for='item in items' :key='item.key'>
-        				<div class='d-flex justify-content-between'>
-        					<span><strong>{{item.title}}</strong> - {{item.link}}</span> <span><button @click.submit="onDelete(item.key)" class='btn btn-primary'>delete</button></span>
-        				</div>
-        			</div>
-        		</div>
+        </div>
+        		
         	</div>
+        <div class='col-md-6' id='albums'>
+        <div class='card shadow'>
+                <div class='card-header'>Albums</div>
+                <div class='card-body'>
+                    <div class='form-group'>
+                    <div class='d-flex justify-content-between'>
+                <form class='' v-on:submit.prevent='onAlbumSubmit'>
+                    <div class='row justify-content-center'>
+                    <input type="text" name="title" required v-model='albumTitle' placeholder="albumTitle" class='form-control col-md-4 mr-3'>
+                    <input type="text" name="link" required placeholder="link" v-model='albumLink' class='form-control col-md-4 mr-3'>
+                    <input type='submit' name='action' class='btn btn-primary' value='Add'/>
+                </div>
+                </form>
+
+                </div>
+                </div>
+                <div class='list-group'>
+                    <div class='list-group-item' v-for='item in albumItems' :key='item.key'>
+                        <div class='d-flex justify-content-between'>
+                            <span><strong>{{item.title}}</strong> - {{item.albumLink}}</span> <span><button @click.submit="onAlbumDelete(item.key)" class='btn btn-primary'>delete</button></span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+        </div>
+                
+            </div>
+            </div>
         	<script src="js/jquery.min.js"></script>
         	  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 <script>
@@ -95,8 +115,11 @@
         				el: '#root',
         				data:{
         					items:[],
+                            albumItems:[],
         					title:'',
         					id:'',
+                            albumTitle:'',
+                            albumLink:''
         				},
         				methods:{onDelete:function(key){
         									
@@ -110,32 +133,22 @@
         				       		this.title='';
         				       		this.id='';
         				       		alert('added');
-        				       	}
+        				       	},
+                                onAlbumDelete:function(key){
+                                    db.ref('albums/'+key).set(null);
+                                },
+                                onAlbumSubmit:function(){
+                                    if(this.albumTitle === '' && this.albumLink ==='')
+                                        return;
+                                    db.ref('albums').push({title:this.albumTitle,albumLink:this.albumLink});
+                                    this.albumTitle='';
+                                    this.albumLink='';
+                                    alert('added');
+                                }
         				    }
         			});
                     
-                    var vm2 = new Vue({
-        				el: '#root2',
-        				data:{
-        					items:[],
-        					title:'',
-        					id:'',
-        				},
-        				methods:{onDelete:function(key){
-        									
-        				        			db.ref('albums/'+key).set(null);
-        				       				 },
-        				       	onSubmit:function(){
-        				       		//('submit');
-        				       		if(this.title === '' && this.id ==='')
-        				       			return;
-        				       		db.ref('albums').push({title:this.title,link:this.link});
-        				       		this.title='';
-        				       		this.link='';
-        				       		alert('added');
-        				       	}
-        				    }
-        			});
+                    
 
         			db.ref('videos').on('child_added',function(snap){
         				var $va = snap.val();
@@ -156,11 +169,11 @@
         				var $va = snap.val();
         				$va['key'] = snap.key;
         				//($va);
-        				vm2.items.push($va);
+        				vm.albumItems.push($va);
         			}) ;
 
         			db.ref('albums').on('child_removed',function(snap){
-        				vm2.items = vm2.items.filter(function(e){
+        				vm.albumItems = vm.albumItems.filter(function(e){
         					return e.key != snap.key; 
         				});
         				
